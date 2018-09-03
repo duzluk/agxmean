@@ -38,4 +38,4 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.listen(port,()=>console.log(`API running on localhost:${port}`))
+app.listen(process.env.PORT || 3000,()=>console.log(`API running on localhost:${port}`))
