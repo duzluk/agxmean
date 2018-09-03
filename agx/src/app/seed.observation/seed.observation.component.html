@@ -1,0 +1,85 @@
+<mat-card>
+  <div *ngIf="seeds!=undefined" fxLayout="row" fxLayoutGap="20px">
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="Ürün" aria-label="category" [(ngModel)]="seed.Title">
+      <button mat-icon-button matSuffix color="basic" (click)="categorySelect()">
+        <mat-icon aria-label="Search">search</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Alt Segment" aria-label="product" [(ngModel)]="product.Title">
+      <button mat-icon-button matSuffix  color="basic" (click)="productSelect()">
+        <mat-icon aria-label="Search">search</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Çeşit" aria-label="variant" [(ngModel)]="variant.Title">
+      <button mat-icon-button matSuffix color="basic" (click)="variantSelect()">
+        <mat-icon aria-label="Search">search</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Bölge" [(ngModel)]="region">
+        <mat-option *ngFor="let option of regions" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Düzenleyen" [(ngModel)]="person._id">
+        <mat-option *ngFor="let option of persons" [value]="option._id">
+          {{option.FirstName}} {{option.LastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Üretici" [(ngModel)]="grower._id">
+        <mat-option *ngFor="let option of growers" [value]="option._id">
+          {{option.FirstName}} {{option.LastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-grid-list cols="24" rowHeight="90px" *ngIf="formFields!=undefined">
+    <mat-grid-tile [colspan]="field.Type==='Slide-Toggle'||field.Type==='CheckBox'?1:field.Type==='TextArea'?4:field.Type==='Text'?3:2" *ngFor="let field of formFields; let rindex= index ">
+      <mat-grid-tile-header style="font-size:12px">{{field.Caption}} </mat-grid-tile-header>
+      <generic-field [fieldInfo]="field" [row]="rindex" [col]="form" style="font-size:12px;width: 98%" (valueChange)="onFormChange($event,'form',rindex)" ></generic-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div *ngIf="fields!=undefined" class="table-container mat-elevation-z8">
+
+    <cdk-table #table [dataSource]="dataSource">
+        <ng-container cdkColumnDef="Action">
+            <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+            <cdk-cell *cdkCellDef="let row;let rindex=index">
+              <button mat-icon-button (click)="deleteItem(rindex)" tabindex="-1">
+                <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+              </button>
+            </cdk-cell>
+          </ng-container>
+      <ng-container *ngFor="let column of columns; let colIndex = index" [cdkColumnDef]="column.columnDef">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">{{ column.header }}</cdk-header-cell>
+        <cdk-cell *cdkCellDef="let row;let rowIndex=index" class="table-cell">
+          <generic-field [row]="rowIndex" [col]="colIndex" [fieldInfo]="row[column.columnDef]" (valueChange)="onModelChange($event,colIndex,rowIndex)"
+            (keypress)="keydown($event)"></generic-field>
+        </cdk-cell>
+      </ng-container>
+      <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="table-header-row"></cdk-header-row>
+      <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;"
+        class="table-row" (click)="rowClick(row,rindex)"></cdk-row>
+
+    </cdk-table>
+    <div >
+      <button mat-raised-button (click)="save()" color="warn">Kaydet</button>
+  </div>
+
+
+
+
+  </div>
+</mat-card>
+
+

@@ -1,0 +1,55 @@
+
+  <div>
+    <mat-card  fxLayout="column" fxLayoutAlign="end stretch" >
+      <h3> Ürün Sorumlusu / Temsilci Tanımları </h3>
+  
+
+
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+  
+      <ng-container matColumnDef="FirstName">
+        <mat-header-cell *matHeaderCellDef>Adı</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.FirstName}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="LastName">
+        <mat-header-cell *matHeaderCellDef>Soyadı</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.LastName}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="GsmNr">
+        <mat-header-cell *matHeaderCellDef>Telefon No</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.GsmNr}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="EMail">
+        <mat-header-cell *matHeaderCellDef>E-Posta</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.EMail}}</mat-cell>
+      </ng-container>
+  
+
+      <!-- actions -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-mini-fab color="primary" (click)="addNew()">
+            <mat-icon aria-label="Add">add</mat-icon>
+          </button>
+        </mat-header-cell>
+  
+        <mat-cell *matCellDef="let row;let i=index">
+          <button mat-icon-button color="accent" (click)="editItem(i,row)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+  
+          <button mat-icon-button color="accent" (click)="deleteItem(i,row)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" class="rowheigth"></mat-row>
+    </mat-table>
+  </mat-card>
+  </div>

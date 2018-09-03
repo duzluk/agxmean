@@ -1,0 +1,114 @@
+<form  (ngSubmit)="submit" #formControl="ngForm">
+  <mat-card >
+    <mat-card-header>
+      <mat-card-subtitle>Rakip Firma</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group class="dialogCard">
+        <mat-tab label="Genel Bilgiler" >
+          <div fxLayout="column" fxLayoutAlign="end stretch">
+
+            <mat-form-field>
+              <input matInput required #FirstName placeholder="Ünavan" name="title" [(ngModel)]="data.Title">
+            </mat-form-field>
+            <div flexLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput required placeholder="İlgili" name="incharge" [(ngModel)]="data.Incharge">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput required placeholder="İlgili 2" name="incharge2" [(ngModel)]="data.Incharge2">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput required placeholder="İlgili 3" name="incharge3" [(ngModel)]="data.Incharge3">
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Gsm No" name="gsmnr" [(ngModel)]="data.Gsm">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Tel No 1" name="telnr1" [(ngModel)]="data.TelNrs1">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Tel No 2" name="telnr2" [(ngModel)]="data.TelNrs2">
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput placeholder="İl" name="city" [(ngModel)]="data.City">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="İlçe" name="district" [(ngModel)]="data.District">
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Ürünleri">
+
+          <div class="container">
+            <cdk-table #table [dataSource]="dataSource" >
+                <ng-container cdkColumnDef="Action">
+                    <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index">
+                      <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+                        <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+                      </button>
+                    </cdk-cell>
+                  </ng-container>
+                <ng-container cdkColumnDef="CategoryTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ana Segment </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                          <input matInput placeholder="Ana Segment" [(ngModel)]="element.CategoryTitle" (keydown.f10)="categorySelect(element)" (ngModelChange)="onModelChange(element,'CategoryTitle')"
+                          name="CategoryTitle-{{rindex}}" id="CategoryTitle-{{rindex}}" (keydown)="keydown($event,'CategoryTitle',rindex)" class="table-input">
+                        <button mat-icon-button matSuffix color="basic" (click)="categorySelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+            
+                  <ng-container cdkColumnDef="ProductTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                        Alt Segment
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Alt Segment" [(ngModel)]="element.ProductTitle" (keydown.f10)="productSelect(element)" (ngModelChange)="onModelChange(element,'ProductTitle')"
+                        name="ProductTitle-{{rindex}}" id="ProductTitle-{{rindex}}" (keydown)="keydown($event,'ProductTitle',rindex)" class="table-input">
+                        <button mat-icon-button matSuffix color="basic" (click)="productSelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Title">
+                      <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                          Çeşit
+                      </cdk-header-cell>
+                      <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                        <mat-form-field>
+                          <input matInput placeholder="Çeşit" [(ngModel)]="element.Title"  (ngModelChange)="onModelChange(element,'Title')"
+                          name="Title-{{rindex}}" id="Title-{{rindex}}" (keydown)="keydown($event,'Title',rindex)" class="table-input">
+                        </mat-form-field>
+                      </cdk-cell>
+                    </ng-container>
+              <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="table-header-row"></cdk-header-row>
+              <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}"
+              class="table-row" (click)="rowClick(row,rindex)"></cdk-row>
+            </cdk-table>
+          </div>
+
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="submit" mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+      <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    </mat-card-actions>
+
+
+  </mat-card>
+</form>

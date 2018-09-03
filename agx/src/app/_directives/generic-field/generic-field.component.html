@@ -1,0 +1,49 @@
+<div>
+  <!-- <span>{{fieldInfo.Caption}}</span> -->
+
+  <span [ngSwitch]="fieldInfo.Type">
+
+    <mat-checkbox id="element{{col}}-{{row}}" *ngSwitchCase="'CheckBox'" [value]="fieldInfo.Value" [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)"></mat-checkbox>
+
+    <mat-form-field *ngSwitchCase="'Text'" style="width: 100%" >
+      <input id="element{{col}}-{{row}}" matInput placeholder="{{fieldInfo.Caption}}" type="text" [value]="fieldInfo.Value"  
+        [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)" (keydown)="keydown($event,col,row)">
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'TextArea'" style="width: 100%" >
+        <textarea id="element{{col}}-{{row}}" matInput placeholder="{{fieldInfo.Caption}}" type="text" [value]="fieldInfo.Value"  
+          [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)" (keydown)="keydown($event,col,row)"> </textarea>
+      </mat-form-field>
+  
+
+    <mat-form-field *ngSwitchCase="'Number'"  style="width: 100%">
+      <input id="element{{col}}-{{row}}" matInput placeholder="{{fieldInfo.Caption}}" type="text" [value]="fieldInfo.Value" [textMask]="{mask: numberMask}"
+        [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)" (keydown)="keydown($event,col,row)">
+    </mat-form-field>
+
+
+    <mat-form-field *ngSwitchCase="'Telephone'"  style="width: 100%">
+      <input id="element{{col}}-{{row}}" matInput placeholder="{{fieldInfo.Caption}}" type="text" [value]="fieldInfo.Value" [textMask]="{mask: telNoMask}"
+        [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)" (keydown)="keydown($event,col,row)">
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'Option'"  style="width: 100%">
+      <mat-select id="element{{col}}-{{row}}" type="text" placeholder="{{fieldInfo.Caption}}" [(ngModel)]="fieldInfo.Value"  [(value)]="fieldInfo.Value"   (ngModelChange)="onChangeValue(fieldInfo)">
+        <mat-option *ngFor="let option of fieldInfo.Options" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'Datepicker'" style="width: 100%" >
+      <input id="element{{col}}-{{row}}" matInput [matDatepicker]="picker" placeholder="{{fieldInfo.Caption}}" 
+        [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)" (keydown)="keydown($event,col,row)"  >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-slide-toggle id="element{{col}}-{{row}}" *ngSwitchCase="'Slide-Toggle'" [color]="primary" [checked]="checked" [(ngModel)]="fieldInfo.Value" (ngModelChange)="onChangeValue(fieldInfo)">
+    </mat-slide-toggle>
+
+  </span>
+</div>

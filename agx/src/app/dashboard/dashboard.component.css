@@ -1,0 +1,10 @@
+.about-list-item, 
+.about-list-item:active, 
+.about-list-item:focus, 
+.about-list-item:hover {
+    text-decoration: none;
+}
+
+.about-list {
+    padding: 20px;
+}

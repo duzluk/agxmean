@@ -1,0 +1,124 @@
+<div>
+  <mat-card fxLayout="column" fxLayoutAlign="end stretch">
+
+    <h3> Tohum Tanımları </h3>
+    <mat-table #table [dataSource]="detailDataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="Code" fxFlexLayout="column">
+        <mat-header-cell *matHeaderCellDef fxFlex="30"> Grup Kodu </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxFlex="30">
+          {{row.GroupCode}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Title" fxFlexLayout="column">
+        <mat-header-cell *matHeaderCellDef fxFlex> Açıklama </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxFlex>
+          {{row.Title}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-mini-fab color="primary" (click)="addNew()">
+            <mat-icon aria-label="Add">add</mat-icon>
+          </button>
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let row;let i=index">
+          <button mat-icon-button color="accent" (click)="editItem(i,row)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="accent" (click)="deleteItem(i,row)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Detail Column -->
+      <ng-container matColumnDef="details">
+        <mat-cell *matCellDef="let row">
+          <ng-container *ngIf="wasExpanded.has(row.data)">
+            <div style="overflow:auto">
+
+
+              <mat-accordion>
+                <mat-expansion-panel *ngFor='let item of row.data.ProductDetail'>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{item.Title}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <table style="width:450px ;">
+                    <thead>
+                      <th style="width: 35%;">Cins</th>
+                      <th>ENumber</th>
+                      <th>AG Kodu</th>
+                      <th style="width: 15%">Detay</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor='let variant of item.Variant'>
+
+                        <td>{{variant.Title}}</td>
+                        <td>
+                            {{variant.ENumber}}
+                        </td>
+                        <td>
+                            {{variant.AGCode}}
+                        </td>
+                        <td>
+                          <button mat-icon-button (click)="variantDetail(item,variant)" >
+                            <mat-icon aria-label="ENumber">subtitles</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+<!-- 
+                  <mat-chip-list *ngFor='let variant of item.Variant' >
+                      <mat-chip>{{variant.Title}}</mat-chip>
+                    </mat-chip-list>
+                  </mat-card> -->
+
+                  <!-- <div class="divTable detailTable">
+                    <div class="divTableHeading">
+                      <div class="divTableRow">
+                        <div class="divTableHead">Cins</div>
+                        <div class="divTableHead">E-Numarası</div>
+                        <div class="divTableHead">AG Kodu</div>
+                        <div class="divTableHead">Detaylar</div>
+                      </div>
+                    </div>
+                    <div class="divTableBody">
+                      <div class="divTableRow" >
+                        <div class="divTableCell">cell1_1</div>
+                        <div class="divTableCell">cell2_1</div>
+                        <div class="divTableCell">cell3_1</div>
+                        <div class="divTableCell">cell4_1</div>
+                      </div>
+                    </div>
+                  </div> -->
+
+
+
+
+
+
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="seedColumns" class="example-header-row"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: seedColumns;" matRipple class="user-row" [style.borderBottomColor]="expandedSeed == row ? 'transparent' : ''"
+        (click)="expandedSeed = row; wasExpanded.add(row);"></mat-row>
+      <mat-row *matRowDef="let row; columns: ['details']; when: isDetailRow" [@detailExpand]="row.data == expandedSeed ? 'expanded' : 'collapsed'"
+        style="overflow: hidden">
+      </mat-row>
+    </mat-table>
+  </mat-card>
+</div>

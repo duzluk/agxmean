@@ -1,0 +1,64 @@
+<mat-card class="detail-card">
+
+    <mat-card-header>
+        <mat-card-title>Detaylar</mat-card-title>
+        <mat-card-subtitle>{{variant.Title}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Deneme Yılı" [textMask]="{mask: trialYearMask}" [(ngModel)]="data.TrialYear" id="TrialYear">
+        </mat-form-field>
+        <div fxLayout="row">
+            <mat-form-field>
+                <input matInput type="text" placeholder="Miktar" [textMask]="{mask: numberMask}" [(ngModel)]="data.ConvFact1" id="ConvFact1">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="text" placeholder="Birim" [(ngModel)]="data.MainUnit" id="MainUnit">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row">
+            <mat-form-field>
+                <input matInput type="text" placeholder="Ambalaj" [textMask]="{mask: numberMask}" [(ngModel)]="data.ConvFact2" id="ConvFact2">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="text" placeholder="İkinci Birim" [(ngModel)]="data.SecondUnit" id="SecondUnit">
+            </mat-form-field>
+        </div>
+        <cdk-table #variantTable [dataSource]="seasonDataSource" class="VariantTable">
+            <ng-container cdkColumnDef="Season">
+                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Sezon </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row;let rindex=index" class="table-cell">
+                    <input matInput type="text" placeholder="Sezon" [(ngModel)]="row.Season" (ngModelChange)="modelChanged($event,rindex)" id="Season-{{rindex}}"
+                        (keydown)="keydownSeason($event,'Season',rindex)" class="table-input">
+                </cdk-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="Status">
+                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Durum </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row;let rindex=index" class="table-cell">
+                    <input matInput type="text" placeholder="Durum" [(ngModel)]="row.Status" (ngModelChange)="modelChanged($event,rindex)" id="Status-{{rindex}}"
+                        (keydown)="keydownSeason($event,'Status',rindex)" class="table-input">
+                </cdk-cell>
+            </ng-container>
+            <ng-container cdkColumnDef="Action">
+                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> 
+                    
+                        
+                </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row;let rindex=index">
+                    <button mat-icon-button (click)="deleteItem(rindex,row)" tabindex="-1">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </cdk-cell>
+            </ng-container>
+            <cdk-header-row *cdkHeaderRowDef="displayColumns" class="table-header-row"></cdk-header-row>
+            <cdk-row *matRowDef="let row;let rindex=index; columns: displayColumns;" class="table-row" (click)=rowClick(row,rindex)>
+            </cdk-row>
+        </cdk-table>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+        <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    </mat-card-actions>
+</mat-card>

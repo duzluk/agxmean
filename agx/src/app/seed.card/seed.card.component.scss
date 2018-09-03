@@ -1,0 +1,72 @@
+// .demo-table-card {
+//     margin: 24px 0;
+//     max-height: calc(100vh - 220px);
+//     height: 100%;
+//     overflow: auto;
+  
+//     h3 {
+//       display: flex;
+//       justify-content: space-between;
+//       align-items: center;
+//     }
+//   }
+
+
+.user-row {
+  cursor: pointer;
+  position: relative; // For matRipple
+
+  &:hover {
+    background:rgb(235, 235, 235);
+  }
+  &:active {
+    background: #42A948;
+  }
+}
+
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+
+.mat-table{
+  max-height: 600px;
+  overflow: auto;
+}
+
+.mat-expansion-panel-header{
+  max-height: 24px;
+  font-size: 12px;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  vertical-align: middle;
+  max-height: calc(100vh - 220px);
+  height: 100%;
+}
+/* Zebra striping */
+// tr:nth-of-type(odd) { 
+//   background: #eee; 
+//   color: #333; 
+// }
+th { 
+  background:rgb(235, 235, 235); 
+  color: rgb(92, 92, 92); 
+  font-weight: bold; 
+}
+td, th { 
+  text-align: left;
+  font-size: 10px;
+}
+
+// .td{
+//   display: block;
+//   flex-direction: column;
+// }
+tr{
+  border-bottom: gray 1px solid;
+  height: auto;
+}
+tr:hover {background-color:rgb(235, 235, 235); }
+

@@ -1,0 +1,55 @@
+<mat-card class="demo-table-card" fxLayout="column" fxLayoutAlign="end stretch">
+  <h3> Rakip Firmalar </h3>
+
+  <mat-table class="container" #table [dataSource]="dataSource"  class="mat-elevation-z8">
+
+
+    <ng-container matColumnDef="Title">
+      <mat-header-cell *matHeaderCellDef>Ünvanı</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.Title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Incharge">
+        <mat-header-cell *matHeaderCellDef>İlgili</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Incharge}}</mat-cell>
+      </ng-container>
+  
+    <ng-container matColumnDef="TelNrs1">
+      <mat-header-cell *matHeaderCellDef>Telefon No</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.TelNrs1}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="District">
+      <mat-header-cell *matHeaderCellDef>İlçe</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.District}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="City">
+      <mat-header-cell *matHeaderCellDef>İl</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.City}}</mat-cell>
+    </ng-container>
+
+    <!-- actions -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-mini-fab color="primary" (click)="addNew()">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let row;let i=index">
+        <button mat-icon-button color="accent" (click)="editItem(i,row)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="deleteItem(i,row)">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" class="rowheigth"></mat-row>
+  </mat-table>
+
+</mat-card>

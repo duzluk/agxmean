@@ -1,0 +1,46 @@
+<div *ngIf="loginViewModel != null">
+    <div class="app-content">
+        <div class="group">
+            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                <mat-card>
+                        <mat-card-title>
+                        Lütfen Giriş Yapınız
+                        </mat-card-title>
+                    <mat-card-content>
+
+                        <mat-input-container>
+                            <input matInput type="text" required [(ngModel)]="loginViewModel.username" id="username" name="username" autocomplete="off">
+                            <mat-placeholder>
+                                <i class="material-icons app-input-icon">face</i>Kullanıcı Adı
+                            </mat-placeholder>
+                        </mat-input-container>
+                        <br>
+                        <br>
+                        <mat-input-container>
+                            <input matInput type="password" required [(ngModel)]="loginViewModel.password" id="password" name="password" autocomplete="off">
+                            <mat-placeholder>
+                                <i class="material-icons app-input-icon">lock_open</i>Şifre
+                            </mat-placeholder>
+                        </mat-input-container>
+                        <br>
+                        <br>
+                        <button mat-raised-button type="submit" color="warn" name="action">
+                            Giriş Yap
+                        </button>
+                        <br>
+                        <br>
+            <!--        <span id="err">
+                            <small>{{errorMessage}}</small>
+                        </span>
+             
+                <mat-slide-toggle color="primary">
+                    <small>Beni Hatıla!</small>
+                </mat-slide-toggle>
+            -->
+                    </mat-card-content>
+                </mat-card>
+            </form>
+
+        </div>
+    </div>
+</div>

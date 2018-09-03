@@ -1,0 +1,71 @@
+
+  .dialogCard{
+      height: 300px;
+  }
+
+ 
+.table-input,
+.table-select{
+  border: none;
+}
+.table-input:hover,
+.table-select:hover,
+.table-input:focus,
+.table-select:focus{
+  border:1px inset lightblue ;
+  border-radius: 5px;
+}
+
+cdk-table {
+  display: block;
+  flex-direction: column;
+  min-width: 300px;
+  width: 100%;
+  height: 250px;
+  overflow: auto;
+  border-bottom: 1px solid rgb(124, 124, 124);
+}
+
+.table-header-row, .table-row {
+  display: flex;
+  //border-bottom: 1px solid rgb(124, 124, 124);
+  height: 32px;
+  align-items: center;
+  padding: 1px 8px;
+}
+
+.table-cell, .table-header-cell {
+  flex: 1;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.cdk-header-cell {
+  font-size: 10px;
+  font-weight:bolder
+
+}
+
+.cdk-cell {
+  font-size: 11px;
+}
+.table-header-cell{
+  text-align: left;
+} 
+.cdk-column-ProductTitle,
+ .cdk-column-VariantTitle,
+ .cdk-column-Title{
+  display: flex;
+  min-width: 100px;
+  align-items: center;
+  flex-direction: row;
+ }
+ mat-form-field{
+  width: 100%;
+}
+
+.cdk-column-Action
+{
+  min-width:30px;
+  justify-content: flex-start;
+}

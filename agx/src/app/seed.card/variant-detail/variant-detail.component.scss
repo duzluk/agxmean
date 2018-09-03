@@ -1,0 +1,70 @@
+.detail-card{
+  max-width: 650px;
+}
+
+.table-input,
+.table-select{
+  border: none;
+}
+// .table-input:hover,
+.table-select:hover,
+.table-input:focus,
+.table-select:focus{
+  border:1px inset lightblue ;
+  border-radius: 5px;
+}
+
+
+cdk-table{
+  max-height: 200px;
+  max-width: 335px;
+  display: block;
+  flex-direction: column;
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-bottom: 1px solid rgb(124, 124, 124);
+}
+
+
+.table-header-row, .table-row {
+  display: flex;
+//border-bottom: 1px solid rgb(124, 124, 124);
+  height: 32px;
+  align-items: center;
+  padding: 1px 8px;
+}
+
+.table-cell, .table-header-cell {
+  flex: 1;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.cdk-header-cell {
+  font-size: 10px;
+  font-weight:bolder
+}
+
+.cdk-cell {
+  font-size: 12px;
+}
+.cdk-TrialSeason
+{
+  min-width: 100px;
+}
+.cdk-column-Action
+{
+  min-width:30px;
+}
+
+.cdk-column-ENumber,
+.cdk-column-AGCode{
+  min-width: 100px;
+ }
+
+
+.table-header-cell{
+  text-align: left;
+} 

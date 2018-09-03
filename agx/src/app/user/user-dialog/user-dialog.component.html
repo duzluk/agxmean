@@ -1,0 +1,103 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Kullanıcı Tanımı</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm"> -->
+    <mat-tab-group>
+      <mat-tab label="Genel Bilgiler">
+        <div fxLayout="column" fxLayoutAlign="end stretch">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+            <mat-form-field fxFlex>
+              <input matInput required class="form-control" placeholder="Kullanıcı Adı" name="username" [(ngModel)]="data.username">
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <mat-select [(ngModel)]="data.Roll" placeholder="Kullanıcı Tipi">
+                <mat-option value="user">Standart Kullanıcı</mat-option>
+                <mat-option value="admin">Yönetici</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-form-field>
+            <input matInput type="password" required class="form-control" placeholder="Şifre" name="password" [(ngModel)]="data.password"
+              (ngModelChange)="onModelChange()">
+          </mat-form-field>
+          <!--<mat-form-field>
+        <input matInput type="password" required class="form-control" placeholder="Şifre Tekrar" name="passAgain" [(ngModel)]="PasswordAgain">
+        </mat-form-field> -->
+
+          <mat-form-field>
+            <input matInput required class="form-control" #FirstName placeholder="Adı" name="firstname" [(ngModel)]="data.FirstName">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput required class="form-control" placeholder="Soyadı" name="lastname" [(ngModel)]="data.LastName">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [textMask]="{mask: telNoMask}" class="form-control" placeholder="Gsm No" name="gsmnr" [(ngModel)]="data.GsmNr">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput class="form-control" placeholder="E-Posta" name="email" [(ngModel)]="data.Email">
+          </mat-form-field>
+        </div>
+
+      </mat-tab>
+      <mat-tab label="Detaylar" *ngIf="data.Roll=='user'">
+        <div fxLayout="column" fxLayoutAlign="end stretch" class="container">
+          <div fxLayout="row">
+            <mat-form-field class="input_3_Col">
+              <mat-select #personSelect placeholder="Personel Adı">
+                <mat-option *ngFor="let item of persons" [value]="item">{{item.FirstName}} {{item.LastName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-button (click)="addPerson(personSelect.value)">Ekle</button>
+          </div>
+          <mat-form-field class="chip-list">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let item of selectedPersons" [selectable]="true" [removable]="true" (remove)="removePerson(item)">
+                {{item.FirstName}} {{item.LastName}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="Yetkiler" *ngIf="data.Roll=='user'">
+
+        <div class="container">
+          <cdk-table #menuTable [dataSource]="menuDataSource">
+            <!-- Checkbox Column -->
+            <ng-container cdkColumnDef="select">
+              <cdk-header-cell *cdkHeaderCellDef class="example-header-cell">
+                <mat-checkbox (change)="$event ? masterToggleMenu() : null" [checked]="selectionMenu.hasValue() && isMenuAllSelected()" [indeterminate]="selectionMenu.hasValue() && !isMenuAllSelected()">
+                </mat-checkbox>
+              </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionMenu.toggle(row) : null" [checked]="selectionMenu.isSelected(row)">
+                </mat-checkbox>
+              </cdk-cell>
+            </ng-container>
+            <ng-container cdkColumnDef="definition">
+              <cdk-header-cell *cdkHeaderCellDef class="example-header-cell"> Menü Seçenekleri </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let row;let rindex=index" class="example-cell">
+                {{row.definition}}
+              </cdk-cell>
+            </ng-container>
+
+            <cdk-header-row *cdkHeaderRowDef="menuColumns" class="example-header-row"></cdk-header-row>
+            <cdk-row *matRowDef="let row; columns: menuColumns;" [ngClass]="{'highlight': selectedRowIndex == row.id}" class="example-row"
+              (click)="selectionMenu.toggle(row)">
+            </cdk-row>
+          </cdk-table>
+        </div>
+
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+    <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    <!-- </form> -->
+  </mat-card-actions>
+</mat-card>

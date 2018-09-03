@@ -1,0 +1,64 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>￼
+  <span>
+    <a class="logo" routerLink="/dashboard" (click)="sidenav.close()">
+      AGX Seed Process Management
+    </a>
+  </span>
+  <span class="example-spacer"></span>
+  <button mat-button (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon> Çıkış</button>
+</mat-toolbar>
+<mat-sidenav-container color="primary">
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list *ngFor="let item of sidenavItems">
+      <div>
+        <span *ngIf="item.subitms">
+          <button mat-button class="side-items"  [matMenuTriggerFor]="menu.childMenu">
+            <mat-icon>{{item.imageurl}}</mat-icon> {{item.definition}}
+            <mat-icon>expand_more</mat-icon>
+          </button>
+           <app-menu-item #menu [items]="item.subitms"  (navToggle)="sidenav.close()"></app-menu-item> 
+        </span>
+
+        <span *ngIf="!item.subitms">
+          <button mat-button class="side-items" routerLink={{item.routeurl}} (click)="sidenav.close()">
+            <mat-icon>{{item.imageurl}}</mat-icon> {{item.definition}}
+          </button>
+        </span>
+      </div>
+    </mat-nav-list>
+    <!-- <mat-nav-list>
+      <div>
+        <button mat-button class="side-items" routerLink='/seed.card' (click)="sidenav.close()">
+          <mat-icon>playlist_add</mat-icon> Tohum Tanımları
+        </button>
+      </div>
+      <div>
+        <button mat-button class="side-items" routerLink='/person' (click)="sidenav.close()">
+          <mat-icon>perm_identity</mat-icon> Ürün Sorumluları
+        </button>
+      </div>
+      <div>
+        <button mat-button class="side-items" routerLink='/grow' (click)="sidenav.close()">
+          <mat-icon>nature_people</mat-icon> Üreticiler
+        </button>
+      </div>
+      <div>
+        <button mat-button class="side-items" routerLink='/seed.input' (click)="sidenav.close()">
+          <mat-icon>swap_horiz</mat-icon> Deneme Tohum Listesi
+        </button>
+      </div>
+      <div>
+        <button mat-button class="side-items" routerLink='/setting' (click)="sidenav.close()">
+          <mat-icon>settings</mat-icon> Ayarlar
+        </button>
+      </div>
+    </mat-nav-list>-->
+  </mat-sidenav> 
+    <div class="my-content">
+      <router-outlet></router-outlet>
+    </div>
+</mat-sidenav-container>

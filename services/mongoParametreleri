@@ -1,0 +1,71 @@
+Query Paramettreleri
+
+Sorgu Seçiciler
+
+Karşılaştırma 
+
+Farklı BSON tipi değerlerin karşılaştırılması için , belirtilen BSON karşılaştırma sırasına bakınız .
+
+isim	    Açıklama
+$eq	        Belirtilen bir değere eşit olan değerlerle eşleşir.
+$gt	        Belirtilen bir değerden daha büyük olan değerlerle eşleşir.
+$gte	    Belirtilen bir değere eşit veya ondan büyük değerlerle eşleşir.
+$in	        Bir dizide belirtilen değerlerden herhangi biriyle eşleşir.
+$lt	        Belirtilen bir değerden daha düşük değerlerle eşleşir.
+$lte	    Belirtilen bir değere eşit veya daha küçük değerlerle eşleşir.
+$ne	        Belirtilen bir değere eşit olmayan tüm değerlerle eşleşir.
+$nin	    Bir dizide belirtilen değerlerin hiçbiri ile eşleşmez.
+
+
+Mantıksal 
+
+isim	    Açıklama
+$and	    AND Her iki maddenin koşullarıyla eşleşen tüm belgeleri mantıksal bir şekilde döndürür.
+$not	    Bir sorgu ifadesinin etkisini tersine çevirir ve do dokümanları döndürür değil sorgu ifadesini maç.
+$nor	    Sorgu maddelerini mantıksal olarak birleştirerek NOR, her iki maddeyle de eşleşmeyen tüm belgeleri döndürür.
+$or	        Sorgu maddelerini mantıksal olarak birleştirerek OR, herhangi bir maddenin koşullarıyla eşleşen tüm belgeleri döndürür.
+
+Eleman 
+isim	    Açıklama
+$exists	    Belirtilen alana sahip belgeleri eşleştirir.
+$type	    Bir alan belirtilen türde ise belgeleri seçer.
+
+Değerlendirme 
+isim	    Açıklama
+$expr	    Sorgulama dili içinde toplama ifadelerinin kullanılmasına izin verir.
+$jsonSchema	Belgeleri verilen JSON Şemasına göre doğrulayın.
+$mod	    Bir alanın değeri üzerinde modulo işlemi gerçekleştirir ve belirtilen bir sonuçla belgeleri seçer.
+$regex	    Değerlerin belirtilen düzenli ifadeyle eşleştiği belgeleri seçer.
+$text	    Metin araması gerçekleştirir.
+$where	    Bir JavaScript ifadesine uyan belgeleri eşleştirir.
+
+Mekansal 
+isim	        Açıklama
+$geoIntersects	GeoJSON geometrisi ile kesişen geometrileri seçer . 2dsphere endeksi destekler $geoIntersects.
+$geoWithin	    Sınırlayıcı bir GeoJSON geometrisi içinde geometrileri seçer . 2dsphere ve 2d indeksleri destek $geoWithin.
+$near	        Jeo uzamsal nesneleri bir noktaya yakın olarak döndürür. Bir coğrafi dizin gerektirir. 2dsphere ve 2d indeksleri destek $near.
+$nearSphere	    Bir küre üzerindeki bir noktaya yakın olarak coğrafi nesneleri döndürür. Bir coğrafi dizin gerektirir. 2dsphere ve 2d indeksleri destek $nearSphere.
+
+Dizi 
+isim	    Açıklama
+$all	    Sorguda belirtilen tüm öğeleri içeren dizilerle eşleşir.
+$elemMatch	Dizi alanındaki elemanın belirtilen tüm $elemMatchkoşullarla eşleşmesi durumunda belgeleri seçer .
+$size	    Dizi alanı belirtilen bir boyutsa belgeleri seçer.
+
+Bitwise 
+isim	        Açıklama
+$bitsAllClear	Bir dizi bit konumunun hepsinin bir değerine sahip olduğu sayısal veya ikili değerler ile eşleşir 0.
+$bitsAllSet	    Bir dizi bit konumunun hepsinin bir değerine sahip olduğu sayısal veya ikili değerler ile eşleşir 1.
+$bitsAnyClear	Ki burada sayısal veya ikili değerlere uyan bir bit konumlarının bir dizi bit arasında bir değere sahiptir 0.
+$bitsAnySet	    Ki burada sayısal veya ikili değerlere uyan bir bit konumlarının bir dizi bit arasında bir değere sahiptir 1.
+
+Yorumlar 
+isim	        Açıklama
+$comment	    Bir sorgu yüklemesine bir yorum ekler.
+
+Projeksiyon     Operatörleri 
+isim	        Açıklama
+$	            İlk öğeyi, sorgu koşuluna uyan bir dizide yansıtır.
+$elemMatch	    Belirtilen $elemMatchkoşula uyan dizideki ilk öğeyi yansıtır .
+$meta	        $textOperasyon sırasında belgenin notunu yansıtır .
+$slice	        Bir diziden yansıtılan öğe sayısını sınırlar. Destekleri atlama ve sınırlama.

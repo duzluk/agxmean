@@ -1,0 +1,14 @@
+<div>
+  <input matInput type='text' style='padding:8px;margin:15px auto;width:80%;' placeholder={{placeholder}} (keyup)='updateFilter($event)'
+  />
+  <div class="container">
+    <ngx-datatable #table class="material fullscreen" style="margin: 0,50" [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+      [footerHeight]="0" [rowHeight]="50" [selected]="selected" [selectionType]="'single'" (activate)="onActivate($event)"
+      (select)="onSelect($event)" (dblclick)="onDblClick($event)" [scrollbarV]="true" [scrollbarH]="true" [rows]="rows">
+    </ngx-datatable>
+  </div>
+
+  <button mat-raised-button [type]="submit" [mat-dialog-close]="selected[0]" (click)="confirm" color="warn">Seç</button>
+  <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+
+</div>

@@ -1,0 +1,45 @@
+
+  <div>
+    <mat-card  fxLayout="column" fxLayoutAlign="end stretch" >
+      <h3>Gözlem Tablosu Tanımları </h3>
+  
+
+
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+  
+      <ng-container matColumnDef="Code">
+        <mat-header-cell *matHeaderCellDef>Kodu</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Code}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef>Açıklama</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Name}}</mat-cell>
+      </ng-container>
+  
+      
+      <!-- actions -->
+      <ng-container matColumnDef="Action">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-mini-fab color="primary" (click)="addNew()">
+            <mat-icon aria-label="Add">add</mat-icon>
+          </button>
+        </mat-header-cell>
+  
+        <mat-cell *matCellDef="let row;let i=index">
+          <button mat-icon-button color="accent" (click)="editItem(i,row)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+  
+          <button mat-icon-button color="accent" (click)="deleteItem(i,row)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" class="rowheigth"></mat-row>
+    </mat-table>
+  </mat-card>
+  </div>

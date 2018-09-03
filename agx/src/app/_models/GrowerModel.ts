@@ -1,0 +1,22 @@
+export class GrowerModel
+{
+    _id:string;
+    Title:string;
+    FirstName:string;
+    LastName:string;
+    Address:string
+    Country:string
+    City:string;
+    District:string;
+    TelNrs1:string;
+    TelNrs2:string;
+    Gsm:string;
+    EMail:string;
+    Persons:string[];
+    Variants:string[];
+    IsActive:boolean=true;
+    IsDelete:boolean=false;
+    TrCode:string;
+    FormOfProduct:string;
+    Region:string;
+}

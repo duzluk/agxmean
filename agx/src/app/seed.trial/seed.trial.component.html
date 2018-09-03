@@ -1,0 +1,580 @@
+<div class="header">
+  <div class="left">
+    <h3 mat-dialog-title>Yıllık Deneme Planı Girişi</h3>
+  </div>
+</div>
+
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-chip-list>
+      <mat-chip (click)="selectedSeed(chip)" *ngFor="let chip of seeds" selected="true" color="basic">
+        {{chip.Title}}
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card-header>
+  <mat-card-content>
+    <cdk-table #table [dataSource]="seedTrialDataSource">
+
+      <ng-container cdkColumnDef="Action">
+        <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index">
+          <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+            <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+          </button>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="CategoryTitle">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ana Segment </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput id="CategoryTitle-{{rindex}}" placeholder="Ana Segment" type="text" [(ngModel)]="element.CategoryTitle" readonly=true
+              (keydown)="keydown($event,'CategoryTitle',rindex)" class="table-input" />
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ProductTitle">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+          <div>
+            Alt Segment
+            <button mat-icon-button tabindex="-1">
+              <mat-icon aria-label="Filter">filter_list</mat-icon>
+            </button>
+          </div>
+        </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput placeholder="Alt Segment" [(ngModel)]="element.ProductTitle" (ngModelChange)="onModelChange(element,'ProductTitle')"
+              id="ProductTitle-{{rindex}}" (keydown)="keydown($event,'ProductTitle',rindex)" class="table-input">
+            <button mat-icon-button matSuffix color="basic" (click)="productSelect(element)">
+              <mat-icon aria-label="Search">search</mat-icon>
+            </button>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="VariantTitle">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşit </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput placeholder="Çeşit" [(ngModel)]="element.VariantTitle" (keydown.f10)="variantSelect(element)" (ngModelChange)="onModelChange(element,'VariantTitle')"
+              id="VarianTitle-{{rindex}}" (keydown)="keydown($event,'VarianTitle',rindex)" class="table-input">
+            <button mat-icon-button matSuffix color="basic" (click)="variantSelect(element)">
+              <mat-icon aria-label="Search">search</mat-icon>
+            </button>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ENumber">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+          E-Numarası
+        </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput type="text" [(ngModel)]="element.ENumber" placeholder="e-numarası" (ngModelChange)="onModelChange(element,'ENumber')"
+              id="ENumber-{{rindex}}" (keydown)="keydown($event,'ENumber',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="AGCode">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> AG Kodu </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput type="text" [(ngModel)]="element.AGCode" placeholder="AG Kodu" (ngModelChange)="onModelChange(element,'AGCode')"
+              id="AGCode-{{rindex}}" (keydown)="keydown($event,'AGCode',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Status" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Statüsü </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-form-field>
+            <mat-select placeholder="Statüsü" disableRipple [(ngModel)]="element.Status" class="table-select" 
+              (ngModelChange)="onModelChange(element,'Status')">
+              <mat-option *ngFor="let item of status" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="TrialSeason" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Sezon </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index">
+          <mat-form-field>
+            <input matInput placeholder="Sezon" [(ngModel)]="element.TrialSeason" (keydown.f10)="trialSeasonSelect(element)" 
+              (ngModelChange)="onModelChange(element,'TrialSeason')"
+              id="TrialSeason-{{rindex}}" (keydown)="keydown($event,'TrialSeason',rindex)" class="table-input">
+            <button mat-icon-button matSuffix color="basic" (click)="trialSeasonSelect(element)">
+              <mat-icon aria-label="Search">search</mat-icon>
+            </button>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="TrialYear" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Deneneceği Yıl </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" fxFlex>
+          <mat-form-field>
+            <input matInput [textMask]="{mask: trialYearMask}" type="text" [(ngModel)]="element.TrialYear" placeholder="Deneme Yılı"  (ngModelChange)="onModelChange(element,'TrialYear')"
+              id="TrialYear-{{rindex}}" (keydown)="keydown($event,'TrialYear',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+
+      <ng-container cdkColumnDef="Region">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Bölge </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" class="table-cell">
+          <mat-form-field>
+            <mat-select disableRipple [(ngModel)]="element.Region" (ngModelChange)="onModelChange(element,'Region')"
+              class="table-select">
+              <mat-option *ngFor="let item of region" [value]="item"  >
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Pack">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ambalaj </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput type="text" [textMask]="{mask: numberMask}" [(ngModel)]="element.Pack" placeholder="Ambalaj" (ngModelChange)="onModelChange(element,'Pack')"
+              id="Pack-{{rindex}}" (keydown)="keydown($event,'Pack',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Amount">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Miktar </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput type="text" [textMask]="{mask: numberMask}" [(ngModel)]="element.Amount" placeholder="Miktar" (ngModelChange)="onModelChange(element,'Amount')"
+              id="Amount-{{rindex}}" (keydown)="keydown($event,'Amount',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="MainUnit">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ana Birim </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput id="MainUnit-{{rindex}}" type="text" [(ngModel)]="element.MainUnit" readonly=true (keydown)="keydown($event,'MainUnit',rindex)"
+              class="table-input" />
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="SecondUnit">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> İkinci Birim </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput id="SecondUnit-{{rindex}}" type="text" [(ngModel)]="element.SecondUnit" readonly=true (keydown)="keydown($event,'SecondUnit',rindex)"
+              class="table-input" />
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="TotalAmount">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Toplam Miktar </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+            <input matInput id="TotalAmount-{{rindex}}" type="text" [(ngModel)]="element.TotalAmount" readonly=true (keydown)="keydown($event,'TotalAmount',rindex)"
+              class="table-input" />
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Responsible">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Verilen Kişi </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" class="table-cell">
+          <mat-form-field>
+          <mat-select placeholder="Sorumlu" [(ngModel)]="element.Responsible" (ngModelChange)="onModelChange(element,'Responsible')"
+            class="table-select">
+            <mat-select-trigger>
+              <span>
+                {{element.Responsible}}
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let item of persons" [value]="item.Code">
+              {{item.FirstName}} {{item.LastName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Date">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Tarih </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field fxFlex="90px">
+            <input matInput type="text" [matDatepicker]="dp" [(ngModel)]="element.Date" (ngModelChange)="onModelChange(element,'Date')"
+              id="Date-{{rindex}}" (keydown)="keydown($event,'Date',rindex)" class="table-input">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Deliverer">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Tohumu Veren </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" class="table-cell">
+          <mat-form-field>
+          <mat-select placeholder="Temsilci" disableRipple [(ngModel)]="element.Deliverer" (ngModelChange)="onModelChange(element,'Deliverer')"
+            class="table-select">
+            <mat-select-trigger>
+              <span>
+                {{element.Deliverer}}
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let item of persons" [value]="item.Code">
+              {{item.FirstName}} {{item.LastName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ResponsibleNotes">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ürün Sorumlusu Açıklaması </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+          <textarea matAutosizeMinRows="2" matAutosizeMaxRows="5" matInput type="text" [(ngModel)]="element.ResponsibleNotes" placeholder="Ürün Sorumlusu Açıklaması"
+            (ngModelChange)="onModelChange(element,'ResponsibleNotes')" id="ResponsibleNotes-{{rindex}}" (keydown)="keydown($event,'ResponsibleNotes',rindex)"
+            class="table-input"></textarea>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Notes">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Notlar </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+          <textarea textarea matAutosizeMinRows="2" matAutosizeMaxRows="5" matInput type="text" [(ngModel)]="element.Notes" placeholder="Notlar"
+            (ngModelChange)="onModelChange(element,'Notes')" id="Notes-{{rindex}}" (keydown)="keydown($event,'Notes',rindex)"
+            class="table-input"></textarea>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ResultDate">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> ÜGS Sonuç Tarihi </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field fxFlex="90px">
+            <input matInput type="text" [matDatepicker]="dpResultDate" [(ngModel)]="element.ResultDate" (ngModelChange)="onModelChange(element,'ResultDate')"
+              id="ResultDate-{{rindex}}" (keydown)="keydown($event,'ResultDate',rindex)" class="table-input">
+            <mat-datepicker-toggle matSuffix [for]="dpResultDate"></mat-datepicker-toggle>
+            <mat-datepicker #dpResultDate></mat-datepicker>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+
+      <ng-container cdkColumnDef="Result">
+        <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Sonuç </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+          <mat-form-field>
+          <input matInput type="text" [(ngModel)]="element.Result" placeholder="Sonuç" (ngModelChange)="onModelChange(element,'Result')"
+            id="Result-{{rindex}}" (keydown)="keydown($event,'Result',rindex)" class="table-input">
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="table-header-row"></cdk-header-row>
+      <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}"
+        class="table-row" (click)="rowClick(row,rindex)"></cdk-row>
+    </cdk-table>
+
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+<!-- <div flexLayout="column">
+  <div flexLayout="row">
+    <mat-form-field fxFlex="200px">
+      <input type="text" placeholder="Tür" matInput required [formControl]="categoryFormControl" [matAutocomplete]="category" [(ngModel)]="category.Title">
+      <mat-autocomplete autoActiveFirstOption=true #category="matAutocomplete">
+        <mat-option *ngFor="let item of filteredCategory | async" [value]="item.Title" (onSelectionChange)="selectedCategory(item)">
+          {{item.Code}} {{ item.Title }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-icon-button color="warn">
+      <mat-icon aria-label="Search">search</mat-icon>
+    </button>
+  </div>
+  <div class="mat-elevation-z8">
+
+
+    <cdk-table #table [dataSource]="seedTrialDataSource" >
+
+      <ng-container cdkColumnDef="Category" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Ana Segment </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          {{element.CategoryTitle}}
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="TrCode" flexLayout="column">
+          <cdk-header-cell *cdkHeaderCellDef fxFlex="30px"> G/Ç </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let element" fxFlex="30px">
+            <mat-select [(ngModel)]="element.TrCode">
+              <mat-option value="0">G</mat-option>
+              <mat-option value="1">Ç</mat-option>
+            </mat-select>
+          </cdk-cell>
+        </ng-container>
+      <ng-container cdkColumnDef="Product" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Alt Segment </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput [(ngModel)]="element.ProductTitle" (keydown.f10)="productSelect(element)" (blur)="getProductByTitle(element)">
+         <input type="text" placeholder="Çeşit" matInput [formControl]="productFormControl" [matAutocomplete]="product" [(ngModel)]="element.ProductTitle">
+          <mat-autocomplete autoActiveFirstOption #product="matAutocomplete">
+            <mat-option *ngFor="let item of filteredProduct | async" [value]="item.Title" (onSelectionChange)="selectedProduct(item,element)">
+              {{item.Code}} {{ item.Title }}
+            </mat-option>
+          </mat-autocomplete> 
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="ProductCode" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> E-Numarası </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput type="text" [(ngModel)]="element.ProductCode" placeholder="e-numarası">
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="Variant" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Cins </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" fxFlex>
+          <input matInput [(ngModel)]="element.VariantTitle" (keydown.f10)="variantSelect(element)" (blur)="getVariantByTitle(element)">
+
+           <input type="text" placeholder="Cins" matInput [formControl]="variantFormControl" [matAutocomplete]="variant" [(ngModel)]="element.VariantTitle">
+          <mat-autocomplete autoActiveFirstOption #variant="matAutocomplete">
+            <mat-option *ngFor="let item of filteredVariant | async" [value]="item.Title" (onSelectionChange)="selectedVariant(item,element)">
+              {{item.Code}} {{ item.Title }}
+            </mat-option>
+          </mat-autocomplete> 
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="VariantCode" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> AG Kodu </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput type="text" [(ngModel)]="element.VariantCode" placeholder="AG Kodu">
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="Status" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Statüsü </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-select placeholder="Statüsü" disableRipple [(ngModel)]="element.Status">
+            <mat-option *ngFor="let item of status" [value]="item">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Region" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Bölge </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-select placeholder="Bölge" disableRipple [(ngModel)]="element.Region">
+            <mat-option *ngFor="let item of region" [value]="item">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="TrialSeason" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Sezon </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-select placeholder="Sezon" disableRipple [(ngModel)]="element.TrialSeason">
+            <mat-option *ngFor="let item of trialSeason" [value]="item">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </cdk-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="TrialYear" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Deneneceği Yıl </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput type="text" [(ngModel)]="element.TrialYear" placeholder="Deneme Yılı">
+        </cdk-cell>
+      </ng-container>
+
+
+
+      <ng-container cdkColumnDef="Deliverer" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Tohumu Verilen </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-select placeholder="Temsilci" disableRipple [(ngModel)]="element.Deliverer">
+            <mat-option *ngFor="let item of persons" [value]="item.Code">
+              {{item.FirstName}} {{item.LastName}}
+            </mat-option>
+          </mat-select>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Date" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex="90px"> Tarih </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex="90px">
+          <mat-form-field fxFlex="90px">
+            <input matInput  [matDatepicker]="dp" [(ngModel)]="element.Date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Responsible" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Tohumu Veren </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <mat-select placeholder="Sorumlu" [(ngModel)]="element.Responsible">
+            <mat-option *ngFor="let item of persons" [value]="item.Code">
+              {{item.FirstName}} {{item.LastName}}
+            </mat-option>
+          </mat-select>
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Pack" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Ambalaj </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput type="number" [(ngModel)]="element.Pack" placeholder="Ambalaj">
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="MainUnit" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Ana Birim </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          {{element.MainUnit}}
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="Amount" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Miktar </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          <input matInput type="number" [(ngModel)]="element.Amount" placeholder="Miktar" (ngModelChange)="onModelChange(element)">
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="SecondUnit" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> İkinci Birim </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          {{element.SecondUnit}}
+        </cdk-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="TotalAmount" flexLayout="column">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex> Toplam Miktar </cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element" fxFlex>
+          {{element.TotalAmount}}
+        </cdk-cell>
+      </ng-container>
+
+
+      <ng-container cdkColumnDef="Action">
+        <cdk-header-cell *cdkHeaderCellDef fxFlex="65px">Sil</cdk-header-cell>
+        <cdk-cell *cdkCellDef="let element;let rindex=index" fxFlex="65px">
+          <button mat-icon-button color="accent">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </cdk-cell>
+      </ng-container>
+
+      <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="example-header-row"></cdk-header-row>
+      <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}"
+        class="example-row" (click)="rowClick(row,rindex)"></cdk-row>
+    </cdk-table>
+  </div>
+</div> -->
+
+<!--
+    <div>
+    <table>
+      <thead>
+        <th>Ana Segment</th>
+        <th>Alt Segment</th>
+        <th>E-Numarası</th>
+        <th>Cins</th>
+        <th>AG Kodu</th>
+        <th>Statüsü</th>
+        <th>Bölge</th>
+        <th>Sezon</th>
+        <th>Deneneceği Yıl</th>
+        <th>Tarih</th>
+        <th>Sil</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of seedTrials">
+          <td>{{element.CategoryTitle}}</td>
+          <td>
+            <input type="text" placeholder="Çeşit" matInput [formControl]="productFormControl" [matAutocomplete]="product" [(ngModel)]="element.ProductTitle">
+            <mat-autocomplete autoActiveFirstOption #product="matAutocomplete">
+              <mat-option *ngFor="let item of filteredProduct | async" [value]="item.Title" (onSelectionChange)="selectedProduct(item,element)">
+                {{item.Code}} {{ item.Title }}
+              </mat-option>
+            </mat-autocomplete>
+          </td>
+          <td>
+            <input matInput type="text" [(ngModel)]="element.ProductCode" placeholder="e-numarası">
+          </td>
+          <td>
+            <input type="text" placeholder="Cins" matInput [formControl]="variantFormControl" [matAutocomplete]="variant" [(ngModel)]="element.VariantTitle">
+            <mat-autocomplete autoActiveFirstOption #variant="matAutocomplete">
+              <mat-option *ngFor="let item of filteredVariant | async" [value]="item.Title" (onSelectionChange)="selectedVariant(item,element)">
+                {{item.Code}} {{ item.Title }}
+              </mat-option>
+            </mat-autocomplete>
+          </td>
+          <td>
+            <input matInput type="text" [(ngModel)]="element.VariantCode" placeholder="AG Kodu">
+          </td>
+          <td>
+            <mat-select placeholder="Statüsü" disableRipple [(ngModel)]="element.Status">
+              <mat-option *ngFor="let item of status" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </td>
+          <td>
+            <input type="text" placeholder="Bölge" matInput [formControl]="regionFormControl" [matAutocomplete]="region" [(ngModel)]="element.Region">
+            <mat-autocomplete autoActiveFirstOption #region="matAutocomplete">
+              <mat-option *ngFor="let option of filteredRegions| async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </td>
+          <td>
+            <mat-select placeholder="Sezon" disableRipple [(ngModel)]="element.TrialSeason">
+              <mat-option *ngFor="let item of trialSeason" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </td>
+          <td>
+            <input matInput type="text" [(ngModel)]="element.TrialYear" placeholder="Deneme Yılı">
+          </td>
+          <td>
+            <mat-form-field fxFlex="90px">
+              <input matInput [matDatepicker]="dp">
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <button mat-icon-button color="accent">
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>-->

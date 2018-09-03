@@ -1,0 +1,165 @@
+.right {
+    padding-right: 1em;
+    //background-color: #5cb85c;
+  }
+  .table-input,
+  .table-select{
+    border: none;
+  }
+  .table-input:hover,
+  .table-select:hover,
+  .table-input:focus,
+  .table-select:focus{
+    border:1px inset lightblue ;
+    border-radius: 5px;
+  }
+  
+  // .container {
+  //   display: flex;
+  //   flex-direction: column;
+  //   min-width: 300px;
+  // }
+  cdk-table {
+    display: block;
+    flex-direction: column;
+    min-width: 300px;
+    width: 100%;
+    max-height: calc(100vh - 220px);
+    height: 100%;
+    overflow: auto;
+    border-bottom: 1px solid rgb(124, 124, 124);
+  }
+  
+  .table-row:hover{
+      background-color: rgb(235, 235, 235);
+  }
+
+  .table-header-row, .table-row {
+    display: flex;
+    //border-bottom: 1px solid rgb(124, 124, 124);
+    height: 32px;
+    align-items: center;
+    padding: 1px 8px;
+  }
+  
+  .table-cell, .table-header-cell {
+    flex: 1;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  
+  .cdk-header-cell {
+    font-size: 10px;
+    font-weight:bolder
+  
+  }
+  
+  .cdk-cell {
+    font-size: 11px;
+  }
+  
+  .cdk-column-Action
+  {
+    min-width:30px;
+    justify-content: flex-start;
+  }
+  
+  .cdk-column-TrialYear,
+  .cdk-column-Status
+  {
+    min-width: 40px;
+    justify-content: flex-start;
+  }
+  
+   .cdk-column-CategoryTitle{
+    // min-width: 120px;
+    justify-content: flex-start;
+   }
+   .cdk-column-TrialSeason,
+   .cdk-column-ProductTitle,
+   .cdk-column-VariantTitle,
+   .cdk-column-Result{
+    display: flex;
+    // min-width: 120px;
+    align-items: center;
+    flex-direction: row;
+   }
+   .cdk-column-Region{
+  min-width: 40px;
+  .mat-select-value-text {
+    white-space: pre-wrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
+   }
+  
+  
+  
+   .cdk-column-ENumber,
+   .cdk-column-AGCode
+   {
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+   }
+  
+   .cdk-column-TotalAmount, 
+   .cdk-column-Amount, 
+   .cdk-column-Pack,
+   .cdk-column-MainUnit, 
+   .cdk-column-SecondUnit,
+   .cdk-column-Responsible,
+   .cdk-column-Deliverer
+   {
+    min-width: 50px;
+    text-align: left;
+   }
+   .cdk-column-TotalAmount
+   {
+    padding-right: 10px;
+    text-align: right
+   }
+  
+   .cdk-column-ResponsibleNotes, .cdk-column-Notes {
+    min-width: 200px;
+   }
+   .cdk-column-Date, .cdk-column-ResultDate   {
+    display: flex;
+    min-width: 90px;
+    align-items: center;
+    flex-direction: row;
+    }
+  .table-header-cell{
+    text-align: left;
+  } 
+  // .mat-chip:not(.mat-basic-chip)+.mat-chip:not(.mat-basic-chip) {
+  //   margin: 0 0 0 4px;
+  // }
+  
+  // .mat-chip:not(.mat-basic-chip) {
+  //   transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+  //   display: inline-flex;
+  //   padding: 5px 5px;
+  //   border-radius: 24px;
+  //   align-items: center;
+  //   cursor: default;
+    
+  // }
+  // .mat-chip:not(.mat-basic-chip) {
+  //   background-color: #e0e0e0;
+  //   color: rgba(0,0,0,.87);
+  // }
+  .mat-chip {
+    font-size: 11px;
+    line-height: 15px;
+    margin-bottom: 2px;
+  }
+  
+  mat-form-field{
+    width: 100%;
+  }
+
+  .highlight{
+    background: #42A948; /* green */
+  }

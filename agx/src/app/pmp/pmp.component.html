@@ -1,0 +1,428 @@
+<mat-card class="container">
+  <mat-card-header>
+    <mat-card-title>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+
+        <mat-form-field>
+          <input matInput type="text" placeholder="Ürün" aria-label="category" [(ngModel)]="seed.Title">
+          <button mat-icon-button matSuffix color="basic" (click)="categorySelect()">
+            <mat-icon aria-label="Search">search</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Alt Segment" aria-label="product" [(ngModel)]="product.Title">
+          <button mat-icon-button matSuffix color="basic" (click)="productSelect()">
+            <mat-icon aria-label="Search">search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let trial of pmps;let pIndex=index" (opened)="expPanelOpened(trial)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{trial.TrialSeason}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{trial.Region}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div fxLayout="column" fxLayoutGap="5px">
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="5px">
+            <mat-card fxFlex="34">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Screening/Üretici Deneme
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <cdk-table [dataSource]="screeningDataSource">
+                  <ng-container cdkColumnDef="Action">
+                    <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index">
+                      <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+                        <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+                      </button>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="VariantTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşitler </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Çeşit" [(ngModel)]="element.VariantTitle" id="ScreeningVariantTitle-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'screening','ScreeningVariantTitle',rindex,pIndex)"
+                          class="table-input">
+                        <button mat-icon-button matSuffix color="basic" (click)="variantSelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Status">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Statüsü </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element" class="table-cell">
+                      <mat-form-field>
+                        <mat-select placeholder="Statüsü" disableRipple [(ngModel)]="element.Status" class="table-select" (ngModelChange)="onModelChange(element,'Status')">
+                          <mat-option *ngFor="let item of statusScrening" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Result">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Sonuç
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Sonuç" [(ngModel)]="element.Result" id="ScreeningResult-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'screening','ScreeningResult',rindex,pIndex)"
+                          class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="SeedOrder">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Tohum Talebi
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput [textMask]="{mask: numberMask}" placeholder="Tohum Talebi" [(ngModel)]="element.SeedOrder" id="ScreeningSeedOrder-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'screening','ScreeningSeedOrder',rindex,pIndex)" class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <cdk-header-row *cdkHeaderRowDef="screeningDisplayedColumns" class="table-header-row"></cdk-header-row>
+                  <cdk-row *cdkRowDef="let row;let rindex=index; columns: screeningDisplayedColumns;" class="table-row">
+                  </cdk-row>
+                </cdk-table>
+
+
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex="42">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Intro
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <cdk-table #introtable [dataSource]="introDataSource">
+                  <ng-container cdkColumnDef="Action">
+                    <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index">
+                      <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+                        <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+                      </button>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="VariantTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşitler </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Çeşit" [(ngModel)]="element.VariantTitle" id="IntroVariantTitle-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'intro','IntroVariantTitle',rindex,pIndex)"
+                          class="table-input">
+                        <button mat-icon-button matSuffix color="basic" (click)="variantSelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Status">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Statü
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <mat-select placeholder="Statüsü" disableRipple [(ngModel)]="element.Status" class="table-select" (ngModelChange)="onModelChange(element,'Status')">
+                          <mat-option *ngFor="let item of statusIntro" [value]="item" >
+                            {{item}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Result">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Sonuç
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Sonuç" [(ngModel)]="element.Result" id="IntroResult-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'intro','IntroResult',rindex,pIndex)"
+                          class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="SeedOrder">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Tohum Talebi
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput [textMask]="{mask: numberMask}" placeholder="Tohum Talebi" [(ngModel)]="element.SeedOrder" id="IntroSeedOrder-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'intro','IntroSeedOrder',rindex,pIndex)" (ngModelChange)="onModelChange(element,'SeedOrder','IntroTable',pIndex,$event)"
+                          class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="ProposedForNextSeason">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Gelecek Sezon İçin Önerilen Çeşitler
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Gelecek Sezon İçin Önerilen Çeşitler" [(ngModel)]="element.ProposedForNextSeason" id="IntroProposedForNextSeason-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'intro','IntroProposedForNextSeason',rindex,pIndex)" class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <cdk-header-row *cdkHeaderRowDef="introDisplayedColumns" class="table-header-row"></cdk-header-row>
+                  <cdk-row *cdkRowDef="let row;let rindex=index; columns: introDisplayedColumns;" class="table-row"></cdk-row>
+                </cdk-table>
+
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex="24">
+             <google-chart #cchart id='pieChart' [data]="pieChartData"></google-chart> 
+            </mat-card>
+
+          </div>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="5px">
+            <mat-card fxFlex="28">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Ticari / Commerical
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <cdk-table #commericaltable [dataSource]="commericalDataSource">
+                  <ng-container cdkColumnDef="Action">
+                    <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index">
+                      <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+                        <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+                      </button>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="VariantTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşitler </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Çeşit" [(ngModel)]="element.VariantTitle" id="CommericalVariantTitle-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'commerical','CommericalVariantTitle',rindex,pIndex)" class="table-input" (ngModelChange)="onModelChange('Commerical')">
+                        <button mat-icon-button matSuffix color="basic" (click)="variantSelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Rate">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      %
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput [textMask]="{mask: numberMask}" placeholder="%" [(ngModel)]="element.Rate" id="CommericalRate-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'commerical','CommericalRate',rindex,pIndex)" class="table-input" (keyup)="percentControl($event)" (ngModelChange)="onModelChange('Commerical')">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Trend">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Trend
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+
+                      <mat-select style="width: 100%" disableRipple [(ngModel)]="element.Trend" (ngModelChange)="onModelChange('Commerical')">
+                        <mat-select-trigger>
+                          <span [ngSwitch]="element.Trend">
+                            <mat-icon *ngSwitchCase="'-1'" style="font-size:24px !important; color: red">trending_down</mat-icon>
+                            <mat-icon *ngSwitchCase="'0'" style="font-size:24px !important; color: gray">trending_flat</mat-icon>
+                            <mat-icon *ngSwitchCase="'1'" style="font-size:24px !important; color: rgb(2, 158, 41)">trending_up</mat-icon>
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option [value]="-1">
+                          <mat-icon style="color: red">trending_down</mat-icon>
+                        </mat-option>
+                        <mat-option [value]="0">
+                          <mat-icon style="color: gray">trending_flat</mat-icon>
+                        </mat-option>
+                        <mat-option [value]="1">
+                          <mat-icon style="color: rgb(2, 158, 41)">trending_up</mat-icon>
+                        </mat-option>
+                      </mat-select>
+                    </cdk-cell>
+                  </ng-container>
+                  <cdk-header-row *cdkHeaderRowDef="comericalDisplayedColumns" class="table-header-row"></cdk-header-row>
+                  <cdk-row *cdkRowDef="let row;let rindex=index; columns: comericalDisplayedColumns;" class="table-row"></cdk-row>
+                </cdk-table>
+
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex="36">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Rakip / Competitor
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+
+                <cdk-table #commericaltable [dataSource]="competitorDataSource">
+                  <ng-container cdkColumnDef="Action">
+                    <cdk-header-cell *cdkHeaderCellDef>Sil</cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index">
+                      <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+                        <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+                      </button>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Title">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Firma </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Firma" [(ngModel)]="element.CompetitorTitle" id="CompetitorTitle-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'competitor','CompetitorTitle',rindex,pIndex)" (blur)="competitorControl(element,rindex)"
+                          class="table-input" >
+                        <button mat-icon-button matSuffix color="basic" (click)="competitorSelect(rindex)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="ProductTitle">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşitler </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Çeşit" [(ngModel)]="element.CompetitorProductTitle" id="CompetitorProductTitle-{{pIndex}}-{{rindex}}" name="CompetitorProductTitle-{{pIndex}}-{{rindex}}"  (blur)="competitorProductControl(element)"
+                          (keydown)="keydown($event,'competitor','CompetitorProductTitle',rindex,pIndex)" class="table-input">
+                        <button mat-icon-button matSuffix color="basic" (click)="competitorProductSelect(element)">
+                          <mat-icon aria-label="Search">search</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Rate">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      %
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput [textMask]="{mask: numberMask}" placeholder="%" [(ngModel)]="element.Rate" id="CompetitorRate-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'competitor','CompetitorRate',rindex,pIndex)" (keyup)="percentControl($event)" class="table-input"
+                          (ngModelChange)="onModelChange('Competitor')">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Trend">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Trend
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-select style="width: 100%" disableRipple [(ngModel)]="element.Trend" (ngModelChange)="onModelChange('Competitor')">
+                        <mat-select-trigger>
+                          <span [ngSwitch]="element.Trend">
+                            <mat-icon *ngSwitchCase="'-1'" style="font-size:24px !important; color: red">trending_down</mat-icon>
+                            <mat-icon *ngSwitchCase="'0'" style="font-size:24px !important; color: gray">trending_flat</mat-icon>
+                            <mat-icon *ngSwitchCase="'1'" style="font-size:24px !important; color: rgb(2, 158, 41)">trending_up</mat-icon>
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option [value]="-1">
+                          <mat-icon style="color: red">trending_down</mat-icon>
+                        </mat-option>
+                        <mat-option [value]="0">
+                          <mat-icon style="color: gray">trending_flat</mat-icon>
+                        </mat-option>
+                        <mat-option [value]="1">
+                          <mat-icon style="color: rgb(2, 158, 41)">trending_up</mat-icon>
+                        </mat-option>
+                      </mat-select>
+                    </cdk-cell>
+                  </ng-container>
+                  <cdk-header-row *cdkHeaderRowDef="competitorDisplayedColumns" class="table-header-row" ></cdk-header-row>
+                  <cdk-row *cdkRowDef="let row;let rindex=index; columns: competitorDisplayedColumns;" class="table-row"
+                    (click)="rowClick(rindex,'Competitor')"></cdk-row>
+                </cdk-table>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex="36">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Pazar Bilgileri
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <cdk-table [dataSource]="informationDataSource">
+
+                  <ng-container cdkColumnDef="MarketSize">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Toplam Pazar </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Toplam Pazar" [(ngModel)]="element.MarketSize" id="InformationMarketSize-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'MarketSize',rindex,pIndex)" class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+
+                  <ng-container cdkColumnDef="Baf">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      BAF
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="BAF" [(ngModel)]="element.Baf" id="InformationBaf-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'Baf',rindex,pIndex)"
+                          class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="Pack">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Paket Ebat
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Trend" [(ngModel)]="element.Pack" id="InformationPack-{{pIndex}}-{{rindex}}" (keydown)="keydown($event,'Pack',rindex,pIndex)"
+                          class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <ng-container cdkColumnDef="MarketValue">
+                    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">
+                      Net Pazar Değeri
+                    </cdk-header-cell>
+                    <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+                      <mat-form-field>
+                        <input matInput placeholder="Pazar Değeri" [(ngModel)]="element.MarketValue" id="InformationMarketValue-{{pIndex}}-{{rindex}}"
+                          (keydown)="keydown($event,'MarketValue',rindex,pIndex)" class="table-input">
+                      </mat-form-field>
+                    </cdk-cell>
+                  </ng-container>
+                  <cdk-header-row *cdkHeaderRowDef="informationColumns" class="table-header-row"></cdk-header-row>
+                  <cdk-row *cdkRowDef="let row;let rindex=index; columns: informationColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}"
+                    class="table-row" (click)="rowClick(row,rindex)"></cdk-row>
+                </cdk-table>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="save()" color="warn">Kaydet</button>
+  </mat-card-actions>
+</mat-card>

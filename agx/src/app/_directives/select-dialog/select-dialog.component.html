@@ -1,0 +1,30 @@
+
+  <div fxLayout="column" fxLayoutAlign="end stretch" class="container">
+    <div class="container">
+      <mat-table #variantTable [dataSource]="dataSource" class="category-table">
+        <!-- Code Column -->
+        <ng-container matColumnDef="Code">
+          <mat-header-cell *matHeaderCellDef class="example-header-cell"> Kodu </mat-header-cell>
+          <mat-cell *matCellDef="let row;let rindex=index" class="example-cell">
+            {{row.Code}}
+          </mat-cell>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="Title">
+          <mat-header-cell *matHeaderCellDef class="example-header-cell"> Açıklama </mat-header-cell>
+          <mat-cell *matCellDef="let row;let rindex=index" class="example-cell">
+            {{row.Title}}
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns" class="example-header-row"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}" class="example-row"
+        (click)="rowClick(row,rindex)">
+        </mat-row>
+      </mat-table>
+    </div>
+
+    <button mat-raised-button [type]="submit" [mat-dialog-close]="selectedRow" (click)="confirm" color="warn">Seç</button>
+    <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+
+    </div>

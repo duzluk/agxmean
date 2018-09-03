@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Personel Tanımı</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content fxLayout="column" fxLayoutAlign="end stretch">
+
+
+    <!-- <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm"> -->
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field color="accent">
+        <input matInput required class="form-control" #FirstName placeholder="Etiket" name="code" [(ngModel)]="data.Code">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Tip" disableRipple [(ngModel)]="data.TrCode">
+          <mat-option *ngFor="let item of trCodes" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field color="accent">
+      <input matInput required class="form-control" #FirstName placeholder="Adı" name="firstname" [(ngModel)]="data.FirstName">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput required class="form-control" placeholder="Soyadı" name="lastname" [(ngModel)]="data.LastName">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput [textMask]="{mask: telNoMask}" class="form-control" placeholder="Gsm No" name="gsmnr" [(ngModel)]="data.GsmNr">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput class="form-control" placeholder="E-Posta" name="email" [(ngModel)]="data.EMail">
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+
+
+    <button mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+    <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    <!-- </form> -->
+  </mat-card-actions>
+</mat-card>

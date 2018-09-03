@@ -1,0 +1,167 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-subtitle>{{data.Title}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+        <!-- <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm"> -->
+        <div fxLayout="column" fxLayoutAlign="end stretch">
+            <div flexLayout="row" fxLayoutGap="20px">
+                <mat-form-field fxFlex>
+                    <input matInput required class="form-control" placeholder="Grup Kodu" name="categoryCode" [(ngModel)]="data.GroupCode">
+                </mat-form-field>
+
+                <mat-form-field fxFlex>
+                    <input matInput required class="form-control" placeholder="Tür" name="categoryTitle" [(ngModel)]="data.Title">
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                    <mat-select placeholder="Gözlem Formu" disableRipple [(ngModel)]="data.FormObservationHeadId" (ngModelChange)="onModelChange($event,'form')">
+                        <mat-option *ngFor="let item of obsHeadsForm" [value]="item._id">
+                            {{item.Name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlex>
+                    <mat-select placeholder="Gözlem Tablosu" disableRipple [(ngModel)]="data.TableObservationHeadId" (ngModelChange)="onModelChange($event,'table')">
+                        <mat-option *ngFor="let item of obsHeadsTable" [value]="item._id">
+                            {{item.Name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-icon-button (click)="seasonDialog()" matTooltip="Sezon Tanımları" class="right">
+                    <mat-icon aria-label="Sezonlar">subtitles</mat-icon>
+                </button>
+            </div>
+            <div class="TableContainer">
+                <mat-tab-group>
+                    <mat-tab label="{{productDetail.Title}}">
+                        <cdk-table #productTable [dataSource]="productDataSource" class="ProductTable">
+                            <ng-container cdkColumnDef="Product">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Alt Segment </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let productRow;let rindex=index" class="table-cell">
+                                    <input matInput type="text" placeholder="Alt Segment" [(ngModel)]="productRow.Title" id="Product-{{rindex}}" (keydown)="keydownProductDetail($event,'Product',rindex)"
+                                        class="table-input">
+                                </cdk-cell>
+                            </ng-container>
+
+                            <ng-container cdkColumnDef="TableObservationHead" flexLayout="column" class="table-header-cell">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-cell"> Gözlem Tablosu </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let element">
+                                    <mat-select placeholder="Gözlem Tablosu" disableRipple [(ngModel)]="element.TableObservationHeadId" class="table-select">
+                                        <mat-option *ngFor="let item of obsHeadsTable" [value]="item._id">
+                                            {{item.Name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </cdk-cell>
+                            </ng-container>
+                            <ng-container cdkColumnDef="FormObservationHead" flexLayout="column" class="table-header-cell">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-cell"> Gözlem Formu </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let element">
+                                    <mat-select placeholder="Gözlem Formu" disableRipple [(ngModel)]="element.FormObservationHeadId" class="table-select">
+                                        <mat-option *ngFor="let item of obsHeadsForm" [value]="item._id">
+                                            {{item.Name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </cdk-cell>
+                            </ng-container>
+
+                            <ng-container cdkColumnDef="Action">
+                                <cdk-header-cell *cdkHeaderCellDef> Kullanımda </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let productRow;let rindex=index">
+                                    <mat-checkbox [checked]="productRow.IsActive" [(ngModel)]="productRow.IsActive">
+                                    </mat-checkbox>
+                                    <button mat-icon-button (click)="deleteItem(rindex,productRow)">
+                                        <mat-icon aria-label="Delete">delete</mat-icon>
+                                    </button>
+                                </cdk-cell>
+                            </ng-container>
+
+                            <cdk-header-row *cdkHeaderRowDef="['Product','FormObservationHead','TableObservationHead','Action']" class="table-header-row"></cdk-header-row>
+                            <cdk-row *matRowDef="let productRow;let rindex=index; columns:['Product','FormObservationHead','TableObservationHead','Action'];"
+                                class="table-row" (click)=rowClickProductDetail(productRow,rindex)>
+                            </cdk-row>
+                        </cdk-table>
+                    </mat-tab>
+                </mat-tab-group>
+                <!-- Variant Table -->
+                <mat-tab-group>
+                    <mat-tab label="Çeşit Tanımları">
+                        <cdk-table #variantTable [dataSource]="variantDataSource" class="VariantTable">
+                            <ng-container cdkColumnDef="Variant">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşit </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let variantRow;let rindex=index" class="table-cell">
+                                    <input matInput type="text" placeholder="Çeşit" [(ngModel)]="variantRow.Title" (ngModelChange)="modelChanged($event)" id="Variant-{{rindex}}"
+                                        (keydown)="keydownVariantDetail($event,'Variant',rindex)" class="table-input">
+                                </cdk-cell>
+                            </ng-container>
+
+                            <ng-container cdkColumnDef="ENumber">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> E-Numarası </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let variantRow;let rindex=index" class="table-cell">
+                                    <input matInput type="text" placeholder="E-Numarası" [(ngModel)]="variantRow.ENumber" (ngModelChange)="modelChanged($event)"
+                                        id="ENumber-{{rindex}}" (keydown)="keydownVariantDetail($event,'ENumber',rindex)" class="table-input">
+                                </cdk-cell>
+                            </ng-container>
+                            <ng-container cdkColumnDef="AGCode">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> AG Kodu </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let variantRow;let rindex=index" class="table-cell">
+                                    <input matInput type="text" placeholder="AG Kodu" [(ngModel)]="variantRow.AGCode" (ngModelChange)="modelChanged($event)"
+                                        id="AGCode-{{rindex}}" (keydown)="keydownVariantDetail($event,'AGCode',rindex)" class="table-input">
+                                </cdk-cell>
+                            </ng-container>
+                            <ng-container cdkColumnDef="Action">
+
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Kullanımda </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let variantRow;let rindex=index">
+                                    <button mat-icon-button (click)="variantDetailDialog(rindex,variantRow)"  matTooltip="Çeşit Detayları">
+                                        <mat-icon aria-label="Detail">subtitles</mat-icon>
+                                    </button>
+                                    <mat-checkbox [checked]="variantRow.IsActive" [(ngModel)]="variantRow.IsActive">
+                                    </mat-checkbox>
+                                    <button mat-icon-button (click)="deleteVariant(rindex,variantRow)">
+                                        <mat-icon aria-label="Delete">delete</mat-icon>
+                                    </button>
+                                </cdk-cell>
+                            </ng-container>
+                            <cdk-header-row *cdkHeaderRowDef="displayColumns" class="table-header-row"></cdk-header-row>
+                            <cdk-row *matRowDef="let variantRow;let rindex=index; columns: displayColumns;" class="table-row" (click)=rowClickVariant(variantRow,rindex)>
+                            </cdk-row>
+                        </cdk-table>
+                    </mat-tab>
+
+
+                    <mat-tab label="Segment Tanımları">
+                        <cdk-table  [dataSource]="seasonDataSource" class="VariantTable">
+                            <ng-container cdkColumnDef="Season">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Sezon </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let row;let rindex=index" class="table-cell">
+                                    <input matInput type="text" placeholder="Sezon" [(ngModel)]="row.Season"  (ngModelChange)="modelChangedSeason($event)"
+                                        id="Season-{{rindex}}" (keydown)="keydownSeason($event,'Season',rindex)" class="table-input">
+                                </cdk-cell>
+                            </ng-container>
+
+                            <ng-container cdkColumnDef="Action">
+                                <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> </cdk-header-cell>
+                                <cdk-cell *cdkCellDef="let row;let rindex=index">
+                                    <button mat-icon-button (click)="deleteSeasonItem(rindex,row)" tabindex="-1">
+                                        <mat-icon aria-label="Delete">delete</mat-icon>
+                                    </button>
+                                </cdk-cell>
+                            </ng-container>
+                            <cdk-header-row *cdkHeaderRowDef="['Season', 'Action']" class="table-header-row"></cdk-header-row>
+                            <cdk-row *matRowDef="let row;let rindex=index; columns: ['Season', 'Action'];" class="table-row" (click)=rowClickSeason(row,rindex)>
+                            </cdk-row>
+                        </cdk-table>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+        </div>
+    </mat-card-content>
+    <mat-card-actions class="buttonRows">
+        <button mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+        <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    </mat-card-actions>
+</mat-card>

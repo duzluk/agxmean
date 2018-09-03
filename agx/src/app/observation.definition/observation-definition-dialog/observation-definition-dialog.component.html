@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Gözlem Tanımı</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <div fxLayout="column" fxLayoutAlign="end stretch">
+      <div fxLayout="row">
+        <mat-form-field>
+          <input matInput required placeholder="Kod" [(ngModel)]="data.Code">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput required placeholder="Açıklama" [(ngModel)]="data.Name">
+        </mat-form-field>
+        <div class="right">
+          <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="data.Place" (change)="onValChange(group.value)">
+            <mat-button-toggle checked="true" value="table">
+              Tablo
+            </mat-button-toggle>
+            <mat-button-toggle value="form">
+              Form
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+      </div>
+      <cdk-table #table [dataSource]="dataSource">
+
+        <ng-container cdkColumnDef="Action">
+          <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">Sil/Aktif</cdk-header-cell>
+          <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+            <button mat-icon-button (click)="deleteItem(rindex,element)" tabindex="-1">
+              <mat-icon aria-label="Delete" color="warn">delete</mat-icon>
+            </button>
+            <mat-checkbox [(ngModel)]="element.IsActive"></mat-checkbox>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="Type" flexLayout="column" class="table-header-cell">
+          <cdk-header-cell *cdkHeaderCellDef class="table-cell"> Giriş Şekli </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let element">
+            <mat-select placeholder="Giriş Şekli" disableRipple [(ngModel)]="element.Type" (ngModelChange)="onModelChange(element,'Type')"
+              class="table-select">
+              <mat-option *ngFor="let item of type" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="Caption">
+          <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Etiket </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+            <input matInput type="text" [(ngModel)]="element.Caption" placeholder="Etiket" (ngModelChange)="onModelChange(element,'Caption')"
+              id="Caption-{{rindex}}" (keydown)="keydown($event,'Caption',rindex)" class="table-input">
+          </cdk-cell>
+        </ng-container>
+
+        <!-- <ng-container cdkColumnDef="Options">
+              <cdk-header-cell *cdkHeaderCellDef class="table-header-cell" > Seçim Listesi </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell" >
+                <input matInput type="text"  [(ngModel)]="element.Options" placeholder="Seçim Listesi" (ngModelChange)="onModelChange(element,'Options')"
+                  id="Options-{{rindex}}" (keydown)="keydown($event,'Options',rindex)" class="table-input">
+              </cdk-cell>
+          </ng-container> -->
+
+        <ng-container cdkColumnDef="Value">
+          <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ön değer </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let element;let rindex=index" class="table-cell">
+            <input matInput type="text" [(ngModel)]="element.Value" placeholder="Ön değer" (ngModelChange)="onModelChange(element,'Value')"
+              id="Value-{{rindex}}" (keydown)="keydown($event,'Value',rindex)" class="table-input">
+          </cdk-cell>
+        </ng-container>
+
+
+
+        <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="table-header-row"></cdk-header-row>
+        <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;" class="table-row" (click)="rowClick(row,rindex)"></cdk-row>
+      </cdk-table>
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+    <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+  </mat-card-actions>
+</mat-card>

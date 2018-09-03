@@ -1,0 +1,77 @@
+
+<cdk-table [dataSource]="dataSource">
+  <ng-container cdkColumnDef="Responsible">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell">Deneme Sorumlusu </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.Responsible}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="CategoryTitle">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Ana Segment </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.CategoryTitle}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="ProductTitle">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Alt Segment </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.ProductTitle}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="VariantTitle">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Çeşit </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.VariantTitle}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="Region">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Bölge </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.Region}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="TrialSeason">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Sezon </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.TrialSeason}}
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="ResultDate">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> ÜGS Sonuç Tarihi </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.ResultDate| date:'dd.MM.yyyy'}}
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Status">
+    <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> Statü </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element" class="table-cell">
+      {{element.Status}}
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="Action">
+    <cdk-header-cell *cdkHeaderCellDef>İşlemler</cdk-header-cell>
+    <cdk-cell *cdkCellDef="let element;let rindex=index">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+          <a mat-menu-item
+          [routerLink]="['/seedObservation', element]">
+          <mat-icon>visibility</mat-icon>
+          <span>Gözlem Girişi</span>
+        </a>
+        <a mat-menu-item
+        [routerLink]="['/productmarketprofile', element]">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Ürün Pazar Profili</span>
+      </a>
+      </mat-menu>
+    </cdk-cell>
+  </ng-container>
+
+  <cdk-header-row *cdkHeaderRowDef="displayedColumns" class="table-header-row"></cdk-header-row>
+  <cdk-row *cdkRowDef="let row;let rindex=index; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}"
+    class="table-row" ></cdk-row>
+</cdk-table>

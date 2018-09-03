@@ -1,0 +1,116 @@
+.container{
+    height: calc(100vh - 110px);
+    overflow-y: auto ;
+    overflow-x: auto;   
+}
+
+.cardContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+.cardContainerLine{
+  display: flex;
+  flex-direction: row;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: 100%
+}
+
+.sticky-header {
+  position: sticky;
+  display: flex;
+  top: 0;
+  background: white;
+  //border-bottom: 1px solid rgb(124, 124, 124);
+  height: 32px;
+  align-items: center;
+  padding: 1px 8px;
+}
+.table-input,
+.table-select{
+  border: none;
+}
+.table-input:hover,
+.table-select:hover,
+.table-input:focus,
+.table-select:focus{
+  border:1px inset lightblue ;
+  border-radius: 5px;
+}
+
+cdk-table {
+  display: block;
+  flex-direction: column;
+  min-width: 200px;
+  width: 100%;
+  height: 170px;
+  overflow: auto;
+  border-bottom: 1px solid rgb(124, 124, 124);
+}
+
+.table-header-row, .table-row {
+  display: flex;
+  //border-bottom: 1px solid rgb(124, 124, 124);
+  height: 32px;
+  align-items: center;
+  padding: 1px 8px;
+}
+.table-header-cell,
+.table-cell
+{
+  flex: 1;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.cdk-header-cell {
+  font-size: 12px;
+  font-weight:bolder
+
+}
+
+.cdk-cell {
+  font-size: 12px;
+}
+ .cdk-column-VariantTitle,
+ .cdk-column-Title,
+ .cdk-column-ProductTitle,
+ .cdk-column-ProposedForNextSeason{
+  display: flex;
+  min-width: 120px;
+  align-items: center;
+  flex-direction: row;
+ }
+
+ .cdk-column-Status,
+ .cdk-column-Result,
+ .cdk-column-SeedOrder,
+
+ .cdk-column-Pack,
+ .cdk-column-Baf,
+ .cdk-column-MarketSize,
+ .cdk-column-MarketValue
+ {
+   display: flex;
+   min-width: 50px;
+ }
+ .cdk-column-Trend,
+ .cdk-column-Rate
+ {
+   display: flex;
+   max-width: 50px;
+ }
+.cdk-column-Action
+{
+  min-width:30px;
+  justify-content:left;
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+.mat-select-arrow-wrapper{
+  visibility: hidden;
+}

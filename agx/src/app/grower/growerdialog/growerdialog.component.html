@@ -1,0 +1,149 @@
+<form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-subtitle>Üretici Tanımı</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Genel Bilgiler">
+          <div fxLayout="column" fxLayoutAlign="end stretch">
+            <div flexLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput required #FirstName placeholder="Adı" name="firstname" [(ngModel)]="data.FirstName">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput required placeholder="Soyadı" name="lastname" [(ngModel)]="data.LastName">
+              </mat-form-field>
+            </div>
+            <mat-form-field>
+              <input matInput required placeholder="Ünvan" name="title" [(ngModel)]="data.Title">
+            </mat-form-field>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Gsm No" name="gsmnr" [(ngModel)]="data.Gsm">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Tel No 1" name="telnr1" [(ngModel)]="data.TelNrs1">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [textMask]="{mask: telNoMask}" placeholder="Tel No 2" name="telnr2" [(ngModel)]="data.TelNrs2">
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <input matInput placeholder="İl" name="city" [(ngModel)]="data.City">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="İlçe" name="district" [(ngModel)]="data.District">
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+              <mat-form-field>
+                <mat-select placeholder="Tip" disableRipple [(ngModel)]="data.TrCode" name="trCode">
+                  <mat-option *ngFor="let item of trCodes" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select placeholder="Üretim Şekli"  [(ngModel)]="data.FormOfProduct" name="formOfProduct">
+                  <mat-option *ngFor="let item of formOfProduct" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select placeholder="Bölge"  [(ngModel)]="data.Region" name="region">
+                  <mat-option *ngFor="let item of regions" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+        <!--     <mat-tab label="Ürün" flexLayout="column">
+
+        <div class="container">
+          <cdk-table #variantTable [dataSource]="dataSource" class="category-table">
+
+            <ng-container cdkColumnDef="select">
+              <cdk-header-cell *cdkHeaderCellDef class="example-header-cell">
+                <mat-checkbox (change)="$event ? masterToggleVariant() : null" [checked]="selectionVariant.hasValue() && isVariantAllSelected()"
+                  [indeterminate]="selectionVariant.hasValue() && !isVariantAllSelected()">
+                </mat-checkbox>
+              </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionVariant.toggle(row) : null" [checked]="selectionVariant.isSelected(row)">
+                </mat-checkbox>
+              </cdk-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="Code">
+              <cdk-header-cell *cdkHeaderCellDef class="example-header-cell"> Kodu </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let row;let rindex=index" class="example-cell">
+                {{row.Code}}
+              </cdk-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="Title">
+              <cdk-header-cell *cdkHeaderCellDef class="example-header-cell"> Açıklama </cdk-header-cell>
+              <cdk-cell *cdkCellDef="let row;let rindex=index" class="example-cell">
+                {{row.Title}}
+              </cdk-cell>
+            </ng-container>
+            <cdk-header-row *cdkHeaderRowDef="variantColumns" class="example-header-row"></cdk-header-row>
+            <cdk-row *matRowDef="let row; columns: variantColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}" class="example-row"
+              (click)="selectionVariant.toggle(row)">
+            </cdk-row>
+          </cdk-table>
+
+
+        </div>
+
+      </mat-tab> -->
+        <mat-tab label="Temsilci">
+
+          <div class="container">
+            <cdk-table #personTable [dataSource]="personDataSource">
+              <!-- Checkbox Column -->
+              <ng-container cdkColumnDef="select">
+                <cdk-header-cell *cdkHeaderCellDef class="example-header-cell">
+                  <mat-checkbox (change)="$event ? masterTogglePerson() : null" [checked]="selectionPerson.hasValue() && isPersonAllSelected()"
+                    [indeterminate]="selectionPerson.hasValue() && !isPersonAllSelected()">
+                  </mat-checkbox>
+                </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionPerson.toggle(row) : null" [checked]="selectionPerson.isSelected(row)">
+                  </mat-checkbox>
+                </cdk-cell>
+              </ng-container>
+              <ng-container cdkColumnDef="FirstName">
+                <cdk-header-cell *cdkHeaderCellDef class="example-header-cell"> Adı </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row;let rindex=index" class="example-cell">
+                  {{row.FirstName}}
+                </cdk-cell>
+              </ng-container>
+              <ng-container cdkColumnDef="LastName">
+                <cdk-header-cell *cdkHeaderCellDef class="example-header-cell"> Soyadı </cdk-header-cell>
+                <cdk-cell *cdkCellDef="let row;let rindex=index" class="example-cell">
+                  {{row.LastName}}
+                </cdk-cell>
+              </ng-container>
+              <cdk-header-row *cdkHeaderRowDef="personColumns" class="example-header-row"></cdk-header-row>
+              <cdk-row *matRowDef="let row; columns: personColumns;" [ngClass]="{'highlight': selectedRowIndex == row._id}" class="example-row"
+                (click)="selectionPerson.toggle(row)">
+              </cdk-row>
+            </cdk-table>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="submit" mat-raised-button (click)="confirmAdd()" color="warn">Kaydet</button>
+      <button mat-raised-button (click)="onNoClick()" tabindex="-1">Vazgeç</button>
+    </mat-card-actions>
+
+
+  </mat-card>
+</form>
