@@ -34,7 +34,8 @@ const mongoose = require('mongoose');
 // }
 
 function connect(){
-    uri='mongodb://bilalatmaca:Crossroad0749!@ds046667.mlab.com:46667/agxdb'
+    //mongodb://<dbuser>:<dbpassword>@ds243502.mlab.com:43502/agx
+    uri='mongodb://bilalatmaca:Crossroad0749!@ds243502.mlab.com:43502/agx'
     return mongoose.connect(uri);
 }
 
