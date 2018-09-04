@@ -34,9 +34,10 @@ const mongoose = require('mongoose');
 // }
 
 function connect(){
-    //mongodb://<dbuser>:<dbpassword>@ds243502.mlab.com:43502/agx
-    uri='mongodb://bilalatmaca:Crossroad0749!@ds243502.mlab.com:43502/agx'
-    return mongoose.connect(uri);
+    azure="mongodb://bilalatmaca:Crossroad0749!@ds022408.mlab.com:22408/agxdb";
+    //HEROKU:mongodb://<dbuser>:<dbpassword>@ds243502.mlab.com:43502/agx
+    //uri='mongodb://bilalatmaca:Crossroad0749!@ds243502.mlab.com:43502/agx'
+    return mongoose.connect(azure);
 }
 
 module.exports = {
